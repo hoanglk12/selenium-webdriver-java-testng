@@ -42,7 +42,7 @@ public class Topic_01_Check_Environment {
 		// Login form displayed
 		Assert.assertTrue(driver.findElement(By.xpath("//form[@name='frmLogin']")).isDisplayed());
 	}
-
+	//Test Slack noti in channel
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
