@@ -18,7 +18,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class Topic_07_Default_Dropdown {
-
 	WebDriver driver;
 	Select selectDay;
 	Select selectMonth;
