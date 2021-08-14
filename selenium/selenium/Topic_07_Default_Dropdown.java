@@ -18,7 +18,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class Topic_07_Default_Dropdown {
-	
+
 	WebDriver driver;
 	Select selectDay;
 	Select selectMonth;
@@ -27,16 +27,15 @@ public class Topic_07_Default_Dropdown {
 	String projectPath = System.getProperty("user.dir");
 	String firstName, lastName, day, month, year, email, companyName, password, confirmPassword;
 	List<String> expectedDays, expectedMonths, expectedYears;
-		
-	
+
 	@BeforeClass
 	public void beforeClass() {
 		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		jsExecutor = (JavascriptExecutor)driver;
+		jsExecutor = (JavascriptExecutor) driver;
 		driver.get("https://demo.nopcommerce.com/");
-		
+
 		// Data test for Register Page
 		firstName = "John";
 		lastName = "Cena";
@@ -47,12 +46,12 @@ public class Topic_07_Default_Dropdown {
 		companyName = "Wayne Enterprise";
 		password = "123456";
 		confirmPassword = "123456";
-		
+
 		expectedDays = new ArrayList<String>(Arrays.asList("Day", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
 				"11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27",
 				"28", "29", "30", "31"));
-		expectedMonths = new ArrayList<String>(Arrays.asList("Month", "January", "February", "March", "April",
-				"May", "June", "July", "August", "September", "October", "November", "December"));
+		expectedMonths = new ArrayList<String>(Arrays.asList("Month", "January", "February", "March", "April", "May",
+				"June", "July", "August", "September", "October", "November", "December"));
 		expectedYears = new ArrayList<String>(Arrays.asList("Year", "1911", "1912", "1913", "1914", "1915", "1916",
 				"1917", "1918", "1919", "1920", "1921", "1922", "1923", "1924", "1925", "1926", "1927", "1928", "1929",
 				"1930", "1931", "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939", "1940", "1941", "1942",
@@ -84,29 +83,33 @@ public class Topic_07_Default_Dropdown {
 		sendKeysToElement(By.id("Company"), companyName);
 		sendKeysToElement(By.id("Password"), password);
 		sendKeysToElement(By.id("ConfirmPassword"), confirmPassword);
-		
-		//Assert values in Day, Month and Year dropdown
-		List<String> actualDays = selectDay.getOptions().stream().map(itemDay->itemDay.getText()).collect(Collectors.toList());
-		List<String> actualMonths = selectMonth.getOptions().stream().map(itemMonth->itemMonth.getText()).collect(Collectors.toList());
-		List<String> actualYears = selectYear.getOptions().stream().map(itemYear->itemYear.getText()).collect(Collectors.toList());
+
+		// Assert values in Day, Month and Year dropdown
+		List<String> actualDays = selectDay.getOptions().stream().map(itemDay -> itemDay.getText())
+				.collect(Collectors.toList());
+		List<String> actualMonths = selectMonth.getOptions().stream().map(itemMonth -> itemMonth.getText())
+				.collect(Collectors.toList());
+		List<String> actualYears = selectYear.getOptions().stream().map(itemYear -> itemYear.getText())
+				.collect(Collectors.toList());
 		Assert.assertEquals(actualDays, expectedDays);
 		Assert.assertEquals(actualMonths, expectedMonths);
 		Assert.assertEquals(actualYears, expectedYears);
-		
-		//Click Register
+
+		// Click Register
 		clickByJs(By.id("register-button"));
 		sleepInSecond(2);
-		
-		//Assert
-		Assert.assertEquals(driver.findElement(By.cssSelector(".page-body>.result")).getText(), "Your registration completed");
+
+		// Assert
+		Assert.assertEquals(driver.findElement(By.cssSelector(".page-body>.result")).getText(),
+				"Your registration completed");
 	}
 
 	@Test
 	public void TC_02_NopCommerce_Verify_MyAccount() {
 		clickElement(By.cssSelector(".ico-account"));
 		sleepInSecond(2);
-		
-		//Assert information in My Account match with Register Page
+
+		// Assert information in My Account match with Register Page
 		Assert.assertEquals(driver.findElement(By.id("FirstName")).getAttribute("value"), firstName);
 		Assert.assertEquals(driver.findElement(By.id("LastName")).getAttribute("value"), lastName);
 		selectDay = new Select(driver.findElement(By.name("DateOfBirthDay")));
@@ -162,7 +165,7 @@ public class Topic_07_Default_Dropdown {
 	public void clickElement(By by) {
 		driver.findElement(by).click();
 	}
-	
+
 	public void clickByJs(By by) {
 		jsExecutor.executeScript("arguments[0].click();", driver.findElement(by));
 	}
