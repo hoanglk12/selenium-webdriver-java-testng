@@ -162,7 +162,7 @@ public class Topic_08_Custom_Dropdown {
 		// 3.2 item not display (hidden) > scroll > click
 		for (WebElement item : allItems) {
 			if (item.getText().trim().equals(expectedItem)) {
-				//jsExecutor.executeScript("arguments[0].scrollIntoView(true);", expectedItem);
+				jsExecutor.executeScript("arguments[0].scrollIntoView(true);", item);
 				sleepInSecond(2);
 				item.click();
 				break;
@@ -183,7 +183,7 @@ public class Topic_08_Custom_Dropdown {
 	
 		for (WebElement item : allItems) {
 			if (item.getText().trim().equals(expectedItem)) {
-				//jsExecutor.executeScript("arguments[0].scrollIntoView(true);", expectedItem);
+				jsExecutor.executeScript("arguments[0].scrollIntoView(true);", item);
 				sleepInSecond(2);
 				item.click();
 				break;
@@ -210,7 +210,7 @@ public class Topic_08_Custom_Dropdown {
 		for (WebElement item : allItems) {
 			for (String valueItem : expectedValueItem) {
 				if (item.getText().trim().equals(valueItem)) {
-					//jsExecutor.executeScript("arguments[0].scrollIntoView(true);", valueItem);
+					jsExecutor.executeScript("arguments[0].scrollIntoView(true);", item);
 					sleepInSecond(1);
 					item.click();
 					List <WebElement> itemSelected = driver.findElements(By.xpath("//li[@class='selected']//input"));
