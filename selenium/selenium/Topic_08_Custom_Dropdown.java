@@ -147,7 +147,7 @@ public class Topic_08_Custom_Dropdown {
 	
 	@AfterClass
 	public void afterClass() {
-		//driver.quit();
+		driver.quit();
 	}
 
 	public void selectElementInCustomDropdown(String parentLocator, String childLocator, String expectedItem) {
