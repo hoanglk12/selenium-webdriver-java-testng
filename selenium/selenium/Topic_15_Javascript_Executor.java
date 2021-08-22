@@ -5,12 +5,10 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -31,11 +29,23 @@ public class Topic_15_Javascript_Executor {
 	WebDriverWait explicitWait;
 	String autoITPath = projectPath + "\\autoIT\\authen_firefox.exe";
 	Select select;
-	Alert alert;
+	String emailAddress, loginPageUrl, userID, password, name, dob, address, city, state, pin, phone, customerID,
+	editAddress, editCity, editState, editPin, editPhone, editEmail;
+
+	By nameTextboxBy = By.name("name");
+	By genderTextboxBy = By.name("gender");
+	By dobTextboxBy = By.name("dob");
+	By addressTextboxBy = By.name("addr");
+	By cityTextboxBy = By.name("city");
+	By stateTextboxBy = By.name("state");
+	By pinTextboxBy = By.name("pinno");
+	By phoneTextboxBy = By.name("telephoneno");
+	By emailTextboxBy = By.name("emailid");
+	By passwordTextboxBy = By.name("password");
+	By submitButton = By.name("sub");
+	
 	@BeforeClass
 	public void beforeClass() {
-		//System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
-		//driver = new ChromeDriver();
 		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -43,9 +53,19 @@ public class Topic_15_Javascript_Executor {
 		jsExecutor = (JavascriptExecutor) driver;
 		explicitWait = new WebDriverWait(driver, 25);
 		action = new Actions(driver);
+		emailAddress = "johncena" + generateEmail();
+		// Data test for New Customer
+		name = "Bookgy Man";
+		dob = "1985-09-08";
+		address = "122 BO APA";
+		city = "Los Angeles";
+		state = "California";
+		pin = "324123";
+		phone = "0912324322";
+		password = "12345678";
 	}
 
-	//@Test
+	@Test
 	public void TC_01_Javascript_Executor() {
 		driver.get("http://live.demoguru99.com/");
 		String domainPage = (String) executeForBrowser("return document.domain;");
@@ -77,10 +97,9 @@ public class Topic_15_Javascript_Executor {
 		
 		//Navigate to demo.guru99.com/v4
 		navigateToUrlByJS("http://demo.guru99.com/v4/");
-		sleepInSecond(2);
+		sleepInSecond(3);
 		String domainHomeGuru = (String) executeForBrowser("return document.domain;");
 		Assert.assertEquals(domainHomeGuru, "demo.guru99.com");
-		
 	}
 
 	@Test
@@ -90,73 +109,63 @@ public class Topic_15_Javascript_Executor {
 		sleepInSecond(1);
 		
 		//Click Submit button and verify error message
-		validationMessage = getElementValidationMessage("//input[@id='fname']");
 		clickElement(By.name("submit-btn"));
+		validationMessage = getElementValidationMessage("//input[@id='fname']");
 		Assert.assertEquals(validationMessage, "Please fill out this field.");
 		sleepInSecond(3);
 		
 		//Input firstName and click Submit
-		validationMessage = getElementValidationMessage("//input[@id='pass']");
 		sendKeysToElement(By.xpath("//input[@id='fname']"), "Hoang Pham");
 		clickElement(By.name("submit-btn"));
+		validationMessage = getElementValidationMessage("//input[@id='pass']");
 		Assert.assertEquals(validationMessage, "Please fill out this field.");
 		sleepInSecond(3);
 		
 		//Input firstName, password and click Submit
-		validationMessage = getElementValidationMessage("//input[@id='em']");
-		driver.findElement(By.xpath("//input[@id='fname']")).clear();
-		driver.findElement(By.xpath("//input[@id='fname']")).sendKeys("Hoang Pham");
-		driver.findElement(By.xpath("//input[@id='pass']")).clear();
-		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("123456");
+		sendKeysToElement(By.xpath("//input[@id='fname']"), "Hoang Pham");
+		sendKeysToElement(By.xpath("//input[@id='pass']"), "1234567");
 		clickElement(By.name("submit-btn"));
+		validationMessage = getElementValidationMessage("//input[@id='em']");
 		Assert.assertEquals(validationMessage, "Please fill out this field.");
 		sleepInSecond(3);
 		
 		//Input firstName, password, invalid data to email and click Submit
-		validationMessage = getElementValidationMessage("//input[@id='em']");
-		driver.findElement(By.xpath("//input[@id='fname']")).clear();
-		driver.findElement(By.xpath("//input[@id='fname']")).sendKeys("Hoang Pham");
-		driver.findElement(By.xpath("//input[@id='pass']")).clear();
-		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("123456");
-		driver.findElement(By.xpath("//input[@id='em']")).clear();
-		driver.findElement(By.xpath("//input[@id='em']")).sendKeys("32!%");
+		sendKeysToElement(By.xpath("//input[@id='fname']"), "Hoang Pham");
+		sendKeysToElement(By.xpath("//input[@id='pass']"), "1234567");
+		sendKeysToElement(By.xpath("//input[@id='em']"), "32!%");
 		clickElement(By.name("submit-btn"));
 		sleepInSecond(2);
-		System.out.println("validationMessage : " + validationMessage);
-		Assert.assertEquals(driver.findElement(By.xpath("//input[@id='em']")).getAttribute("validationMessage"), "Please enter an email address.");
+		validationMessage = getElementValidationMessage("//input[@id='em']");
+		Assert.assertEquals(validationMessage, "Please enter an email address.");
 		sleepInSecond(3);
 		
 		//Input firstName, password, invalid data to email and click Submit
-		driver.findElement(By.xpath("//input[@id='fname']")).clear();
-		driver.findElement(By.xpath("//input[@id='fname']")).sendKeys("Hoang P");
-		driver.findElement(By.xpath("//input[@id='pass']")).clear();
-		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("1234567");
-		driver.findElement(By.xpath("//input[@id='em']")).clear();
-		driver.findElement(By.xpath("//input[@id='em']")).sendKeys("123@456");
+		sendKeysToElement(By.xpath("//input[@id='fname']"), "Hoang Pham");
+		sendKeysToElement(By.xpath("//input[@id='pass']"), "1234567");
+		sendKeysToElement(By.xpath("//input[@id='em']"), "123@456");
 		clickElement(By.name("submit-btn"));
 		sleepInSecond(2);
-		Assert.assertEquals(driver.findElement(By.xpath("//input[@id='em']")).getAttribute("validationMessage"), "Please match the requested format.");
+		validationMessage = getElementValidationMessage("//input[@id='em']");
+		Assert.assertEquals(validationMessage, "Please match the requested format.");
 		sleepInSecond(3);
 		
 		//Input firstName, password, email and click Submit
-		driver.findElement(By.xpath("//input[@id='fname']")).clear();
-		driver.findElement(By.xpath("//input[@id='fname']")).sendKeys("Hoang Pham");
-		driver.findElement(By.xpath("//input[@id='pass']")).clear();
-		driver.findElement(By.xpath("//input[@id='pass']")).sendKeys("123456");
-		driver.findElement(By.xpath("//input[@id='em']")).clear();
-		driver.findElement(By.xpath("//input[@id='em']")).sendKeys("hp95@gmail.com");
+		sendKeysToElement(By.xpath("//input[@id='fname']"), "Hoang Pham");
+		sendKeysToElement(By.xpath("//input[@id='pass']"), "1234567");
+		sendKeysToElement(By.xpath("//input[@id='em']"), "hp95@gmail.com");
 		clickElement(By.name("submit-btn"));
 		sleepInSecond(2);
-		Assert.assertEquals(driver.findElement(By.xpath("//input[@id='em']")).getAttribute("validationMessage"), "Please select an item in the list.");
-		//Assert.assertEquals(validationMessage, "Please select an item in the list.");
+		validationMessage = getElementValidationMessage("//b[contains(text(),'ADDRESS')]/parent::label/following-sibling::select");
+		Assert.assertEquals(validationMessage, "Please select an item in the list.");
 		sleepInSecond(1);
 	}
 
-	//@Test
+	@Test
 	public void TC_03_Verify_HMTL5_Validation_Message() {
 		//Ubuntu Page
 		driver.get("https://login.ubuntu.com/");
 		List<WebElement> popupShopee = driver.findElements(By.cssSelector(".p-modal__dialog"));
+		String validationMessage;
 		sleepInSecond(2);
 		if(popupShopee.size() > 0 && popupShopee.get(0).isDisplayed()) {
 			System.out.println("Popup is displayed");
@@ -164,38 +173,103 @@ public class Topic_15_Javascript_Executor {
 		}else {
 			System.out.println("Popup is NOT displayed");
 		}
-		WebElement ubuntuElement = driver.findElement(By.cssSelector("#login-form #id_email"));
-		driver.findElement(By.xpath("//form[@id='login-form']//input[@id='id_email']")).clear();
-		driver.findElement(By.xpath("//form[@id='login-form']//input[@id='id_email']")).sendKeys("a");
+		sendKeysToElement(By.xpath("//form[@id='login-form']//input[@id='id_email']"), "a");
 		clickElement(By.name("continue"));
-		sleepInSecond(5);
-		//System.out.println("ubuntu message : " + ubuntuElement.getAttribute("validationMessage"));
-		Assert.assertEquals(ubuntuElement.getAttribute("validationMessage"), "Please enter an email address.");
+		sleepInSecond(1);
+		validationMessage = getElementValidationMessage("//div[@class='login-form']//input[@id='id_email' and @name='email']");
+		Assert.assertEquals(validationMessage, "Please enter an email address.");
 		
 		//Rode Page
 		driver.get("https://warranty.rode.com/");
-		String rodePageValidationMessage = getElementValidationMessage("//input[@id='firstname']");
-		driver.findElement(By.xpath("//button[contains(text(),'Register')]")).click();
-		Assert.assertEquals(rodePageValidationMessage, "Please fill out this field.");
+		clickElement(By.xpath("//button[contains(text(),'Register')]"));
+		validationMessage = getElementValidationMessage("//input[@id='firstname']");
+		Assert.assertEquals(validationMessage, "Please fill out this field.");
 		sleepInSecond(1);
 		
-		//Pexels
+		//Pexels Page
 		driver.get("https://www.pexels.com/vi-vn/join-contributor/");
-		String pexelsPageValidationMessage = getElementValidationMessage("//input[@id='user_first_name']");
 		scrollToElement("//button[contains(text(),'Tạo tài khoản mới')]");
-		driver.findElement(By.xpath("//button[contains(text(),'Tạo tài khoản mới')]")).click();
-		Assert.assertEquals(pexelsPageValidationMessage, "Please fill out this field.");
-		sleepInSecond(5);
+		//driver.findElement(By.xpath("//button[contains(text(),'Tạo tài khoản mới')]")).click();
+		clickElement(By.xpath("//button[contains(text(),'Tạo tài khoản mới')]"));
+		validationMessage = getElementValidationMessage("//input[@id='user_first_name']");
+		Assert.assertEquals(validationMessage, "Please fill out this field.");
+		sleepInSecond(3);
 	}
 	
 	@Test
 	public void TC_04_Remove_Attribute() {
+		driver.get("http://demo.guru99.com/v4");
+		sendKeysToElement(By.name("uid"),"mngr348991");
+		sendKeysToElement(By.name("password"),"upYpahU");
+		clickElement(By.name("btnLogin"));
+		sleepInSecond(3);
 		
+		//Click New Customer
+		clickElement(By.xpath("//a[text()='New Customer']"));
+		driver.findElement(nameTextboxBy).sendKeys(name);
+		removeAttributeInDOM("//input[@id='dob']", "type");
+		sleepInSecond(1);
+		driver.findElement(dobTextboxBy).sendKeys(dob);
+		sleepInSecond(3);
+		driver.findElement(addressTextboxBy).sendKeys(address);
+		driver.findElement(cityTextboxBy).sendKeys(city);
+		driver.findElement(stateTextboxBy).sendKeys(state);
+		driver.findElement(pinTextboxBy).sendKeys(pin);
+		driver.findElement(phoneTextboxBy).sendKeys(phone);
+		driver.findElement(emailTextboxBy).sendKeys(emailAddress);
+		driver.findElement(passwordTextboxBy).sendKeys(password);
+		driver.findElement(submitButton).click();
+		
+		// Assert
+		customerID = driver.findElement(By.xpath("//td[text()='Customer ID']/following-sibling::td")).getText();
+		Assert.assertEquals(driver.findElement(By.cssSelector(".heading3")).getText(),
+				"Customer Registered Successfully!!!");
+		Assert.assertEquals(
+				driver.findElement(By.xpath("//td[text()='Customer Name']/following-sibling::td")).getText(), name);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Birthdate']/following-sibling::td")).getText(),
+				dob);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Address']/following-sibling::td")).getText(),
+				address);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='City']/following-sibling::td")).getText(), city);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='State']/following-sibling::td")).getText(),
+				state);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Pin']/following-sibling::td")).getText(), pin);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Mobile No.']/following-sibling::td")).getText(),
+				phone);
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Email']/following-sibling::td")).getText(),
+				emailAddress);
 	}
 	
 	@Test
 	public void TC_05_Create_An_Account() {
+		driver.get("http://live.demoguru99.com/");
+		sleepInSecond(3);
+		clickToElementByJS("//div[@id='header-account']//a[text()='My Account' and @title='My Account']");
+		sleepInSecond(3);
 		
+		// Click Register link
+		clickElement(By.xpath("//a[@title='Create an Account']"));
+		sleepInSecond(2);
+		
+		//Input all mandatory fields
+		sendKeysToElement(By.id("firstname"), address);
+		sendKeysToElement(By.id("lastname"), address);
+		sendKeysToElement(By.id("email_address"), "johnwick" + generateEmail());
+		sendKeysToElement(By.id("password"), "123456");
+		sendKeysToElement(By.id("confirmation"), "123456");
+		clickElement(By.cssSelector(".back-link+.button"));
+		sleepInSecond(2);
+		
+		//Assert
+		Assert.assertEquals(driver.findElement(By.cssSelector(".success-msg span")).getText(), "Thank you for registering with Main Website Store.");
+		
+		//Logout
+		clickToElementByJS("//a[text()='Log Out']");
+		sleepInSecond(3);
+		
+		//Assert redirect, Guru99 logo is displayed
+		explicitWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".page-title img")));
+		Assert.assertTrue(driver.findElement(By.cssSelector(".page-title img")).isDisplayed());
 	}
 
 	@AfterClass
