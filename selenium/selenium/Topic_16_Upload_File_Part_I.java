@@ -89,6 +89,7 @@ public class Topic_16_Upload_File_Part_I {
 
 	@Test
 	public void TC_01_Upload_File_MultiplePerTime_SendKeys() {
+		// Put "\n" between filepaths
 		driver.get("https://blueimp.github.io/jQuery-File-Upload/");
 		By uploadFile = By.cssSelector("input[type='file']");
 		sleepInSecond(1);
@@ -111,16 +112,6 @@ public class Topic_16_Upload_File_Part_I {
 		Assert.assertTrue(driver.findElement(By.xpath("//tbody[@class='files']//a[text()='" + imageAlexFerguson + "']")).isDisplayed());
 		Assert.assertTrue(driver.findElement(By.xpath("//tbody[@class='files']//a[text()='" + imageJohnWick + "']")).isDisplayed());
 		Assert.assertTrue(driver.findElement(By.xpath("//tbody[@class='files']//a[text()='" + imageLucifer + "']")).isDisplayed());
-	}
-
-	@Test
-	public void TC_03_Upload_File_Robot() {
-		
-	}
-	
-	@Test
-	public void TC_04_Upload_File() {
-		
 	}
 	
 	@AfterClass
