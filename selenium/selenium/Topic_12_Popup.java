@@ -7,13 +7,10 @@ import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.server.handler.SendKeys;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -40,11 +37,11 @@ public class Topic_12_Popup {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		jsExecutor = (JavascriptExecutor) driver;
-		explicitWait = new WebDriverWait(driver, 25);
+		explicitWait = new WebDriverWait(driver, 30);
 		action = new Actions(driver);
 	}
 
-	//@Test
+	@Test
 	public void TC_01_Fixed_Popup() {
 		driver.get("https://ngoaingu24h.vn/");
 		
@@ -72,8 +69,8 @@ public class Topic_12_Popup {
 	public void TC_02_Random_Popup_In_Dom() {
 		driver.get("https://blog.testproject.io/");
 		action.moveByOffset(20, 20).perform();
-		if (isJQueryLoadedSuccess() == true) {
-		
+		Assert.assertTrue(isJQueryLoadedSuccess(driver));
+	
 		//Input 'Selenium' in Search
 		driver.findElement(By.cssSelector("#search-2 input.search-field")).sendKeys("Selenium");
 		
@@ -86,10 +83,10 @@ public class Topic_12_Popup {
 		for (String titleText : allTitleTexts) {
 			Assert.assertTrue(titleText.contains("Selenium"));
 		}
-	}
+	
 }
 
-	//@Test
+	@Test
 	public void TC_04_Random_Popup_Not_In_Dom() {
 		driver.get("https://shopee.vn/");
 		List<WebElement> popupShopee = driver.findElements(By.cssSelector("#modal img"));
@@ -99,15 +96,15 @@ public class Topic_12_Popup {
 		}else {
 			System.out.println("Popup is NOT displayed");
 		}
-		sendKeysToElement(By.cssSelector(".shopee-searchbar-input>input"), "Macbook Pro");
+		sendKeysToElement(By.cssSelector(".shopee-searchbar-input>input"), "Macbook");
 		clickElement(By.cssSelector(".shopee-searchbar__main+button"));
-		sleepInSecond(2);
+		
 		
 		explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//div[@class='yQmmFK _1POlWt _36CEnF']")));
 		List <String> allProductTexts = driver.findElements(By.xpath("//div[@class='yQmmFK _1POlWt _36CEnF']")).stream().map(itemTitle->itemTitle.getText()).collect(Collectors.toList());
 		for (String productText : allProductTexts) {
 			Assert.assertTrue(productText.toLowerCase().contains("macbook"));
-			Assert.assertTrue(productText.toLowerCase().contains("pro"));
+			
 		}
 	}
 	
@@ -117,7 +114,8 @@ public class Topic_12_Popup {
 		driver.quit();
 	}
 	
-	public boolean isJQueryLoadedSuccess() {
+
+	public boolean isJQueryLoadedSuccess(WebDriver driver) {
 		ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
 			@Override
 			public Boolean apply(WebDriver driver) {
@@ -126,6 +124,51 @@ public class Topic_12_Popup {
 		};
 		return explicitWait.until(jQueryLoad);
 	}
+
+	public boolean isJQueryAndAjaxIconLoadedSuccess(WebDriver driver) {
+		explicitWait = new WebDriverWait(driver, 15);
+		ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver driver) {
+				try {
+					return ((Long) jsExecutor.executeScript("return jQuery.active") == 0);
+				} catch (Exception e) {
+					return true;
+				}
+			}
+		};
+		ExpectedCondition<Boolean> ajaxIconLoading = new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver driver) {
+				return jsExecutor.executeScript("return $('.raDiv').is('visible')").toString().equals("false");
+			}
+		};
+
+		return explicitWait.until(jQueryLoad) && explicitWait.until(ajaxIconLoading);
+	}
+
+	public boolean isJQueryAndPageLoadedSuccess(WebDriver driver) {
+		explicitWait = new WebDriverWait(driver, 15);
+		ExpectedCondition<Boolean> jQueryLoad = new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver driver) {
+				try {
+					return ((Long) jsExecutor.executeScript("return jQuery.active") == 0);
+				} catch (Exception e) {
+					return true;
+				}
+			}
+		};
+		ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver driver) {
+				return jsExecutor.executeScript("return document.readyState").toString().equals("complete");
+			}
+		};
+
+		return explicitWait.until(jQueryLoad) && explicitWait.until(jsLoad);
+	}
+
 	
 	public boolean isElementDisplayed(By by) {
 		if (driver.findElement(by).isDisplayed()) {
