@@ -44,7 +44,7 @@ public class Topic_12_Popup {
 		action = new Actions(driver);
 	}
 
-	@Test
+	//@Test
 	public void TC_01_Fixed_Popup() {
 		driver.get("https://ngoaingu24h.vn/");
 		
@@ -71,13 +71,8 @@ public class Topic_12_Popup {
 	@Test
 	public void TC_02_Random_Popup_In_Dom() {
 		driver.get("https://blog.testproject.io/");
-		//Check if jQuery loaded successfully
-		Assert.assertTrue(isJQueryLoadedSuccess());
-		By popup = By.cssSelector("div.mailch-wrap");
-		
-		if (driver.findElement(popup).isDisplayed()) {
-			clickElement(By.cssSelector("#close-mailch"));
-		}
+		action.moveByOffset(20, 20).perform();
+		if (isJQueryLoadedSuccess() == true) {
 		
 		//Input 'Selenium' in Search
 		driver.findElement(By.cssSelector("#search-2 input.search-field")).sendKeys("Selenium");
@@ -92,8 +87,9 @@ public class Topic_12_Popup {
 			Assert.assertTrue(titleText.contains("Selenium"));
 		}
 	}
+}
 
-	@Test
+	//@Test
 	public void TC_04_Random_Popup_Not_In_Dom() {
 		driver.get("https://shopee.vn/");
 		List<WebElement> popupShopee = driver.findElements(By.cssSelector("#modal img"));
