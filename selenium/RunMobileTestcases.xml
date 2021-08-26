@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Tiki" parallel="tests" thread-count="3"> 
+ <test name="Run on FIREFOX"> 
+  	<parameter name="browser" value="firefox"/>
+     	<!-- <classes> 
+    		<class name="mobileTest.Topic_01_Mobile"/>
+    	</classes> -->
+    	<packages>
+    		<package name="mobileTest"/>
+    	</packages>
+   </test> 
+</suite> 

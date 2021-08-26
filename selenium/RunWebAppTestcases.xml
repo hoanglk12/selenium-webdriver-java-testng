@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Tiki" parallel="tests" thread-count="3">
+	<listeners>
+		<listener class-name="listenerConfig.TestListener"/>
+	</listeners>
+	<test name="Run on FIREFOX">
+		<parameter name="browser" value="firefox" />
+		<classes>
+			<class name="webTest.Topic_01_Web" />
+			<class name="testng.Topic_07_DependOnTest" />
+		</classes>
+	</test>
+</suite>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Run Web And Mobile" parallel="tests" thread-count="3"> 
+ 	<suite-files>
+ 		<suite-file path = "RunMobileTestcases.xml"/>
+ 		<suite-file path = "RunWebAppTestcases.xml"/>
+ 	</suite-files>
+</suite> 
