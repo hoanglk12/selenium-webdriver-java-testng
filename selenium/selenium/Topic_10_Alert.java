@@ -40,20 +40,21 @@ public class Topic_10_Alert {
 	public void TC_01_Accept_Alert() {
 		driver.get("https://automationfc.github.io/basic-form/index.html");
 		clickElement(By.xpath("//button[text()='Click for JS Alert']"));
-		alert = explicitWait.until(ExpectedConditions.alertIsPresent());
-		sleepInSecond(2);
+//		alert = explicitWait.until(ExpectedConditions.alertIsPresent());
+		waitForAlertPresence(driver);
+		sleepInSecond(5);
 		
 		//Assert: 
 		Assert.assertEquals(alert.getText(), "I am a JS Alert");
 		
 		//Accept alert
-		alert.accept();
+		acceptAlert(driver);
 		
 		//Assert:verify message at Result
 		Assert.assertEquals(driver.findElement(By.cssSelector("#result")).getText(), "You clicked an alert successfully");
 	}
 
-	@Test
+//	@Test
 	public void TC_02_Confirm_Alert() {
 		driver.get("https://automationfc.github.io/basic-form/index.html");
 		clickElement(By.xpath("//button[text()='Click for JS Confirm']"));
@@ -71,7 +72,7 @@ public class Topic_10_Alert {
 		
 	}
 
-	@Test
+//	@Test
 	public void TC_03_Prompt_Alert() {
 		String dataInputAlert = "Automation Test Engineer";
 		driver.get("https://automationfc.github.io/basic-form/index.html");
@@ -91,7 +92,7 @@ public class Topic_10_Alert {
 		
 	}
 
-	@Test
+//	@Test
 	public void TC_04_Authentication_Alert() {
 		driver.get("http://the-internet.herokuapp.com");
 		String hrefUrl = driver.findElement(By.xpath("//a[text()='Basic Auth']")).getAttribute("href");
@@ -102,7 +103,7 @@ public class Topic_10_Alert {
 		Assert.assertEquals(driver.findElement(By.cssSelector(".example>p")).getText(), "Congratulations! You must have the proper credentials.");
 	}
 	
-	@Test
+//	@Test
 	public void TC_05_Authentication_Alert_AutoIT() throws IOException {
 		Runtime.getRuntime().exec(new String[] {autoITPath,"admin","admin"});
 		driver.get("http://the-internet.herokuapp.com/basic_auth");
@@ -196,5 +197,23 @@ public class Topic_10_Alert {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Alert waitForAlertPresence(WebDriver driver) {
+	
+		return alert = explicitWait.until(ExpectedConditions.alertIsPresent());
+	}
+	public void acceptAlert(WebDriver driver) {
+		waitForAlertPresence(driver);
+		alert.accept();
+	}
+	public void cancelAlert(WebDriver driver) {
+		waitForAlertPresence(driver);
+		alert.dismiss();
+	}
+
+	public void sendkeyToAlert(WebDriver driver, String value) {
+		waitForAlertPresence(driver);
+		alert.sendKeys(value);
 	}
 }
