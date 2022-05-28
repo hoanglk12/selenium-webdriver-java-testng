@@ -17,15 +17,14 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-
-
 public class Topic_08_Custom_Dropdown {
-	
+
 	String projectPath = System.getProperty("user.dir");
 	WebDriver driver;
 	JavascriptExecutor jsExecutor;
 	WebDriverWait explicitWait;
-	String[] expectedItemSelected = {"January","February","December"};
+	String[] expectedItemSelected = { "January", "February", "December" };
+
 	@BeforeClass
 	public void beforeClass() {
 		System.setProperty("webdriver.chrome.driver", projectPath + "\\browserDrivers\\chromedriver.exe");
@@ -38,18 +37,15 @@ public class Topic_08_Custom_Dropdown {
 	@Test
 	public void TC_01_JQuery() {
 		driver.get("https://jqueryui.com/resources/demos/selectmenu/default.html");
-		selectElementInCustomDropdown("//span[@id='number-button']",
-				"//ul[@id='number-menu']//li[@class='ui-menu-item']//div", "5");
+		selectElementInCustomDropdown("//span[@id='number-button']", "//ul[@id='number-menu']//li[@class='ui-menu-item']//div", "5");
 		sleepInSecond(2);
 		Assert.assertTrue(isElementDisplayed(By.xpath("//span[@id='number-button']//span[contains(text(),'5')]")));
 
-		selectElementInCustomDropdown("//span[@id='number-button']",
-				"//ul[@id='number-menu']//li[@class='ui-menu-item']//div", "19");
+		selectElementInCustomDropdown("//span[@id='number-button']", "//ul[@id='number-menu']//li[@class='ui-menu-item']//div", "19");
 		sleepInSecond(2);
 		Assert.assertTrue(isElementDisplayed(By.xpath("//span[@id='number-button']//span[contains(text(),'19')]")));
 
-		selectElementInCustomDropdown("//span[@id='number-button']",
-				"//ul[@id='number-menu']//li[@class='ui-menu-item']//div", "3");
+		selectElementInCustomDropdown("//span[@id='number-button']", "//ul[@id='number-menu']//li[@class='ui-menu-item']//div", "3");
 		sleepInSecond(2);
 		Assert.assertTrue(isElementDisplayed(By.xpath("//span[@id='number-button']//span[contains(text(),'3')]")));
 	}
@@ -58,33 +54,27 @@ public class Topic_08_Custom_Dropdown {
 	public void TC_02_ReactJs() {
 		driver.get("https://react.semantic-ui.com/maximize/dropdown-example-selection/");
 
-		selectElementInCustomDropdown("//div[@role='listbox']",
-				"//div[@class='visible menu transition']//div[@role='option']", "Jenny Hess");
+		selectElementInCustomDropdown("//div[@role='listbox']", "//div[@class='visible menu transition']//div[@role='option']", "Jenny Hess");
 		sleepInSecond(2);
 		Assert.assertTrue(isElementDisplayed(By.xpath("//div[@class='divider text' and text()='Jenny Hess']")));
 
-		selectElementInCustomDropdown("//div[@role='listbox']",
-				"//div[@class='visible menu transition']//div[@role='option']", "Elliot Fu");
+		selectElementInCustomDropdown("//div[@role='listbox']", "//div[@class='visible menu transition']//div[@role='option']", "Elliot Fu");
 		sleepInSecond(2);
 		Assert.assertTrue(isElementDisplayed(By.xpath("//div[@class='divider text' and text()='Elliot Fu']")));
 
-		selectElementInCustomDropdown("//div[@role='listbox']",
-				"//div[@class='visible menu transition']//div[@role='option']", "Stevie Feliciano");
+		selectElementInCustomDropdown("//div[@role='listbox']", "//div[@class='visible menu transition']//div[@role='option']", "Stevie Feliciano");
 		sleepInSecond(2);
 		Assert.assertTrue(isElementDisplayed(By.xpath("//div[@class='divider text' and text()='Stevie Feliciano']")));
 
-		selectElementInCustomDropdown("//div[@role='listbox']",
-				"//div[@class='visible menu transition']//div[@role='option']", "Christian");
+		selectElementInCustomDropdown("//div[@role='listbox']", "//div[@class='visible menu transition']//div[@role='option']", "Christian");
 		sleepInSecond(2);
 		Assert.assertTrue(isElementDisplayed(By.xpath("//div[@class='divider text' and text()='Christian']")));
 
-		selectElementInCustomDropdown("//div[@role='listbox']",
-				"//div[@class='visible menu transition']//div[@role='option']", "Matt");
+		selectElementInCustomDropdown("//div[@role='listbox']", "//div[@class='visible menu transition']//div[@role='option']", "Matt");
 		sleepInSecond(2);
 		Assert.assertTrue(isElementDisplayed(By.xpath("//div[@class='divider text' and text()='Matt']")));
 
-		selectElementInCustomDropdown("//div[@role='listbox']",
-				"//div[@class='visible menu transition']//div[@role='option']", "Justen Kitsune");
+		selectElementInCustomDropdown("//div[@role='listbox']", "//div[@class='visible menu transition']//div[@role='option']", "Justen Kitsune");
 		sleepInSecond(2);
 		Assert.assertTrue(isElementDisplayed(By.xpath("//div[@class='divider text' and text()='Justen Kitsune']")));
 	}
@@ -93,58 +83,53 @@ public class Topic_08_Custom_Dropdown {
 	public void TC_03_VueJs() {
 		// //ul[@class='dropdown-menu hide']/li/a
 		driver.get("https://mikerodham.github.io/vue-dropdowns/");
-		selectElementInCustomDropdown("//li[@class='dropdown-toggle']", "//ul[@class='dropdown-menu']/li/a",
-				"First Option");
+		selectElementInCustomDropdown("//li[@class='dropdown-toggle']", "//ul[@class='dropdown-menu']/li/a", "First Option");
 		sleepInSecond(2);
-		Assert.assertTrue(
-				isElementDisplayed(By.xpath("//li[@class='dropdown-toggle' and contains(text(),'First Option')]")));
+		Assert.assertTrue(isElementDisplayed(By.xpath("//li[@class='dropdown-toggle' and contains(text(),'First Option')]")));
 
-		selectElementInCustomDropdown("//li[@class='dropdown-toggle']", "//ul[@class='dropdown-menu']/li/a",
-				"Second Option");
+		selectElementInCustomDropdown("//li[@class='dropdown-toggle']", "//ul[@class='dropdown-menu']/li/a", "Second Option");
 		sleepInSecond(2);
-		Assert.assertTrue(
-				isElementDisplayed(By.xpath("//li[@class='dropdown-toggle' and contains(text(),'Second Option')]")));
+		Assert.assertTrue(isElementDisplayed(By.xpath("//li[@class='dropdown-toggle' and contains(text(),'Second Option')]")));
 
-		selectElementInCustomDropdown("//li[@class='dropdown-toggle']", "//ul[@class='dropdown-menu']/li/a",
-				"Third Option");
+		selectElementInCustomDropdown("//li[@class='dropdown-toggle']", "//ul[@class='dropdown-menu']/li/a", "Third Option");
 		sleepInSecond(2);
-		Assert.assertTrue(
-				isElementDisplayed(By.xpath("//li[@class='dropdown-toggle' and contains(text(),'Third Option')]")));
+		Assert.assertTrue(isElementDisplayed(By.xpath("//li[@class='dropdown-toggle' and contains(text(),'Third Option')]")));
 	}
-	
+
 	@Test
 	public void TC_04_Angular() {
 		driver.get("https://valor-software.com/ng2-select/");
-		selectElementInCustomDropdown("//tab[@heading='Single']//div[contains(@class,'ui-select-container')]","//ul[@role='menu']//li", "Barcelona");
+		selectElementInCustomDropdown("//tab[@heading='Single']//div[contains(@class,'ui-select-container')]", "//ul[@role='menu']//li", "Barcelona");
 		sleepInSecond(2);
-		Assert.assertEquals(driver.findElement(By.xpath("//h3[text()='Select a single city']/following-sibling::ng-select//div[@class='ui-select-match']/span/span")).getText(),"Barcelona");
-	
+		Assert.assertEquals(driver.findElement(By.xpath("//h3[text()='Select a single city']/following-sibling::ng-select//div[@class='ui-select-match']/span/span")).getText(), "Barcelona");
+
 	}
-	
+
 	@Test
 	public void TC_05_Edittable_Dropdown_Angular() {
 		driver.get("https://valor-software.com/ng2-select/");
-		enterAndSelectElementInCustomDropdown("//tab[@heading='Single']//div[contains(@class,'ui-select-container')]","//tab[@heading='Single']//input","//ul[@role='menu']//li/div/a/div","Sheffield");
+		enterAndSelectElementInCustomDropdown("//tab[@heading='Single']//div[contains(@class,'ui-select-container')]", "//tab[@heading='Single']//input", "//ul[@role='menu']//li/div/a/div", "Sheffield");
 		sleepInSecond(2);
-		Assert.assertEquals(driver.findElement(By.xpath("//h3[text()='Select a single city']/following-sibling::ng-select//div[@class='ui-select-match']/span/span")).getText(),"Sheffield");
+		Assert.assertEquals(driver.findElement(By.xpath("//h3[text()='Select a single city']/following-sibling::ng-select//div[@class='ui-select-match']/span/span")).getText(), "Sheffield");
 	}
-	
+
 	@Test
 	public void TC_05_Edittable_Dropdown_ReactJs() {
 		driver.get("https://react.semantic-ui.com/maximize/dropdown-example-search-selection/");
 		enterAndTabOnElementInCustomDropdown("//div[@role='combobox']/input", "Austria");
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@role='combobox']/div[@role='alert' and contains(text(),'Austria')]")).isDisplayed());
-		
+
 		enterAndTabOnElementInCustomDropdown("//div[@role='combobox']/input", "Belgium");
 		Assert.assertTrue(driver.findElement(By.xpath("//div[@role='combobox']/div[@role='alert' and contains(text(),'Belgium')]")).isDisplayed());
 	}
+
 	@Test
 	public void TC_06_Multiple_Select() {
 		driver.get("https://multiple-select.wenzhixin.net.cn/templates/template.html?v=189&url=basic.html");
-		selectMultiElementInCustomDropdown("(//label[contains(text(),'Multiple Select')])[last()-1]/following-sibling::div","(//div[@class='ms-drop bottom'])[last()-1]//span", expectedItemSelected);
+		selectMultiElementInCustomDropdown("(//label[contains(text(),'Multiple Select')])[last()-1]/following-sibling::div", "(//div[@class='ms-drop bottom'])[last()-1]//span", expectedItemSelected);
 		areItemsSelected(expectedItemSelected);
 	}
-	
+
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
@@ -155,8 +140,7 @@ public class Topic_08_Custom_Dropdown {
 		clickElement(By.xpath(parentLocator));
 		sleepInSecond(3);
 		// 2. Wait for all item loaded successfully -> child
-		List<WebElement> allItems = explicitWait
-				.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childLocator)));
+		List<WebElement> allItems = explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childLocator)));
 		// 3. Find target item
 		// 3.1 item display > click
 		// 3.2 item not display (hidden) > scroll > click
@@ -171,16 +155,15 @@ public class Topic_08_Custom_Dropdown {
 		}
 
 	}
-	
+
 	public void enterAndSelectElementInCustomDropdown(String parentLocator, String textboxLocator, String childLocator, String expectedItem) {
-		
+
 		clickElement(By.xpath(parentLocator));
 		sleepInSecond(2);
 		sendKeysToElement(By.xpath(textboxLocator), expectedItem);
 		sleepInSecond(1);
-		List<WebElement> allItems = explicitWait
-				.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childLocator)));
-	
+		List<WebElement> allItems = explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childLocator)));
+
 		for (WebElement item : allItems) {
 			if (item.getText().trim().equals(expectedItem)) {
 				jsExecutor.executeScript("arguments[0].scrollIntoView(true);", item);
@@ -192,20 +175,19 @@ public class Topic_08_Custom_Dropdown {
 		}
 
 	}
-	
+
 	public void enterAndTabOnElementInCustomDropdown(String Locator, String expectedItem) {
 		sendKeysToElement(By.xpath(Locator), expectedItem);
 		sleepInSecond(1);
 		driver.findElement(By.xpath(Locator)).sendKeys(Keys.TAB);
 	}
-	
+
 	public void selectMultiElementInCustomDropdown(String parentLocator, String childLocator, String[] expectedValueItem) {
 
 		clickElement(By.xpath(parentLocator));
 		sleepInSecond(1);
 
-		List<WebElement> allItems = explicitWait
-				.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childLocator)));
+		List<WebElement> allItems = explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(childLocator)));
 
 		for (WebElement item : allItems) {
 			for (String valueItem : expectedValueItem) {
@@ -213,7 +195,7 @@ public class Topic_08_Custom_Dropdown {
 					jsExecutor.executeScript("arguments[0].scrollIntoView(true);", item);
 					sleepInSecond(1);
 					item.click();
-					List <WebElement> itemSelected = driver.findElements(By.xpath("//li[@class='selected']//input"));
+					List<WebElement> itemSelected = driver.findElements(By.xpath("//li[@class='selected']//input"));
 					if (itemSelected.size() == expectedValueItem.length) {
 						break;
 					}
@@ -221,11 +203,10 @@ public class Topic_08_Custom_Dropdown {
 			}
 		}
 	}
-	
+
 	public boolean areItemsSelected(String[] months) {
 		List<WebElement> itemSelected = driver.findElements(By.xpath("//li[@class='selected']//input"));
-		String allItemsTextSelected = driver.findElement(By.xpath("(//button[@class='ms-choice']/span)[last()-1]"))
-				.getText();
+		String allItemsTextSelected = driver.findElement(By.xpath("(//button[@class='ms-choice']/span)[last()-1]")).getText();
 		int numberItemSelected = itemSelected.size();
 		System.out.println("items selected: " + numberItemSelected);
 		if (numberItemSelected > 0 && numberItemSelected <= 3) {
@@ -238,17 +219,14 @@ public class Topic_08_Custom_Dropdown {
 				return found;
 			}
 		} else if (numberItemSelected > 3 && numberItemSelected < 12) {
-			return driver
-					.findElement(By.xpath(
-							"//button[@class='ms-choice']/span[text()='" + numberItemSelected + "' of 12 selected']"))
-					.isDisplayed();
+			return driver.findElement(By.xpath("//button[@class='ms-choice']/span[text()='" + numberItemSelected + "' of 12 selected']")).isDisplayed();
 		} else if (numberItemSelected >= 12) {
-			return driver.findElement(By.xpath("//button[@class='ms-choice']/span[text()='All selected']"))
-					.isDisplayed();
+			return driver.findElement(By.xpath("//button[@class='ms-choice']/span[text()='All selected']")).isDisplayed();
 		}
 		return false;
 
 	}
+
 	public boolean isElementDisplayed(By by) {
 		if (driver.findElement(by).isDisplayed()) {
 			System.out.println(by + " is displayed");
